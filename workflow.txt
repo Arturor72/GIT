@@ -1,0 +1,84 @@
+	WorkFlow
+------------------------
+Primero se creara una rama remota llamada develop, aqui se realizara el desarrollo.
+Cada vez que una nueva persona ingrese a desarrollar creara una rama develop local.
+En todo momento debe estar actualizando esa rama mediante fetch.
+Para desarrollar una funcionalidad especifica, se debe crear una rama local.
+En todo momento debes fusionar la rama que descargas "origin/develop" con tu rama que estas desarrollando.
+Cuando se finaliza el desarrollo de la funcionalidad se realiza un rebase con la rama origin/develop, debido a que todo debe estar ok para integrarlo con nuestra rama local develop
+Al finalizar cambias a la rama develop y realizas un merge
+Subes los cambios mediante push
+Eliminas la rama que creaste para el desarrollo especifico
+
+  * Clonar el proyecto desde gitlab o github
+
+    git clone git@example.com:project-name.git
+
+  * Crear un rama remota "develop"
+
+    git checkout -b develop
+    git push -u origin develop
+
+  * Crear una rama local "feature" para la nueva funcionalidad que se desarrolla
+
+    git checkout -b some-feature develop
+
+  * Agregar los cambios del desarrollo a la rama local feature
+
+    git status
+    git add <some-file>
+    git commit
+
+  * Refrescar con frequencia la rama local con los cambios agregado a la rama develop remota
+
+    git fetch origin develop:develop
+    git rebase origin/develop
+
+  * Cuando se terminó el desarrollo local y que está listo para subirse a la rama develop, fusionar los commits y los comentarios
+
+    git rebase -i origin/develop
+
+  * Selecionar el commit a sabir con la palabra "pick" y marcar los demas commit con la palabra "squash"
+
+    Ejemplo:
+
+    Con los commits siguientes:
+
+    pick 3dcd585 Adding Comment model, migrations, spec
+    pick 9f5c362 Adding Comment controller, helper, spec
+    pick dcd4813 Adding Comment relationship with Post
+    pick 977a754 Comment belongs to a User
+    pick 9ea48e3 Comment form on Post show page
+
+    Cambiar a:
+
+    pick 3dcd585 Adding Comment model, migrations, spec
+    squash 9f5c362 Adding Comment controller, helper, spec
+    squash dcd4813 Adding Comment relationship with Post
+    squash 977a754 Comment belongs to a User
+    squash 9ea48e3 Comment form on Post show page
+
+    Grabar y cerrar el editor de texto
+
+    Como comentario agregar un titulo resumen del cambio y colocar todos los commits fusionados en el body del mensaje en formato de lista con *
+
+    User Can Add A Comment To a Post
+
+    * Adding Comment controller, helper, spec
+    * Adding Comment relationship with Post
+    * Comment belongs to a User
+    * Comment form on Post show page
+
+  * Agregar los cambios de la rama local a la rama develop remota
+
+    git checkout develop
+    git merge some-feature
+    git push origin develop
+
+  * Finalmente eliminar la rama si se desea
+    
+    git branch -d some-feature
+
+
+	
+
